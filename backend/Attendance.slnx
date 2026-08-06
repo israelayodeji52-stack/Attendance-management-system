@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Attendance.Api/Attendance.Api.csproj" />
+    <Project Path="src/Attendance.AppHost/Attendance.AppHost.csproj" />
+    <Project Path="src/Attendance.Application/Attendance.Application.csproj" />
+    <Project Path="src/Attendance.Contracts/Attendance.Contracts.csproj" />
+    <Project Path="src/Attendance.Domain/Attendance.Domain.csproj" />
+    <Project Path="src/Attendance.Infrastructure/Attendance.Infrastructure.csproj" />
+  </Folder>
+</Solution>
