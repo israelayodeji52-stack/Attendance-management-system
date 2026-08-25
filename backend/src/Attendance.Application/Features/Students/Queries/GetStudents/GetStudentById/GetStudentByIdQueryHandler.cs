@@ -6,12 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Attendance.Application.Features.Students.Queries.GetStudentById;
 
-public class GetStudentByIdQueryHandler
+public sealed class GetStudentByIdQueryHandler
     : IRequestHandler<GetStudentByIdQuery, StudentResponse>
 {
     private readonly IApplicationDbContext _context;
 
-    public GetStudentByIdQueryHandler(IApplicationDbContext context)
+    public GetStudentByIdQueryHandler(
+        IApplicationDbContext context)
     {
         _context = context;
     }
@@ -28,19 +29,31 @@ public class GetStudentByIdQueryHandler
 
         if (student is null)
         {
-            throw new KeyNotFoundException("Student not found.");
+            throw new KeyNotFoundException(
+                "Student not found.");
         }
 
         return new StudentResponse
         {
             Id = student.Id,
+
             StudentNumber = student.StudentNumber,
+
             MatricNumber = student.MatricNumber,
+
             FirstName = student.FirstName,
+
             LastName = student.LastName,
+
             Email = student.Email,
+
             Role = student.Role.ToString(),
-            IsEmailConfirmed = student.IsEmailConfirmed
+
+            IsEmailConfirmed =
+                student.IsEmailConfirmed,
+
+            // QR CODE
+            QrCode = student.QrCode
         };
     }
 }

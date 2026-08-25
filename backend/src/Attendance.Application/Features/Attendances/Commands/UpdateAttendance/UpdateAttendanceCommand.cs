@@ -9,5 +9,14 @@ public sealed record UpdateAttendanceCommand(
     Guid CourseId,
     Guid SemesterId,
     Guid AcademicSessionId,
-    bool Status)
-    : IRequest<AttendanceResponse>;
+    string Status
+) : IRequest<AttendanceResponse>
+{
+    public UpdateAttendanceCommand(Guid id, Guid studentId, Guid courseId, Guid semesterId, Guid academicSessionId, bool status)
+        : this(id, studentId, courseId, semesterId, academicSessionId, status.ToString())
+    {
+        Status1 = status;
+    }
+
+    public bool Status1 { get; }
+}

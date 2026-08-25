@@ -2,5 +2,5 @@ namespace Attendance.Application.Interfaces;
 
 public interface IQrCodeService
 {
-    byte[] GenerateQrCode(string value);
+    string GenerateQrCode(string matricNumber);
 }

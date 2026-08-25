@@ -6,12 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Attendance.Application.Features.Students.Queries.GetStudents;
 
-public class GetStudentsQueryHandler
+public sealed class GetStudentsQueryHandler
     : IRequestHandler<GetStudentsQuery, List<StudentResponse>>
 {
     private readonly IApplicationDbContext _context;
 
-    public GetStudentsQueryHandler(IApplicationDbContext context)
+    public GetStudentsQueryHandler(
+        IApplicationDbContext context)
     {
         _context = context;
     }
@@ -25,17 +26,30 @@ public class GetStudentsQueryHandler
             .OrderBy(x => x.FirstName)
             .ToListAsync(cancellationToken);
 
-        var response = students.Select(student => new StudentResponse
-        {
-            Id = student.Id,
-            StudentNumber = student.StudentNumber,
-            MatricNumber = student.MatricNumber,
-            FirstName = student.FirstName,
-            LastName = student.LastName,
-            Email = student.Email,
-            Role = student.Role.ToString(),
-            IsEmailConfirmed = student.IsEmailConfirmed
-        }).ToList();
+        var response = students
+            .Select(student => new StudentResponse
+            {
+                Id = student.Id,
+
+                StudentNumber = student.StudentNumber,
+
+                MatricNumber = student.MatricNumber,
+
+                FirstName = student.FirstName,
+
+                LastName = student.LastName,
+
+                Email = student.Email,
+
+                Role = student.Role.ToString(),
+
+                IsEmailConfirmed =
+                    student.IsEmailConfirmed,
+
+                // QR CODE
+                QrCode = student.QrCode
+            })
+            .ToList();
 
         return response;
     }

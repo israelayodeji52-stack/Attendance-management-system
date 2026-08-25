@@ -5,6 +5,7 @@ C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\A
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Contracts\obj\Debug\net10.0\Attendance.Contracts.AssemblyInfoInputs.cache
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Contracts\obj\Debug\net10.0\Attendance.Contracts.AssemblyInfo.cs
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Contracts\obj\Debug\net10.0\Attendance.Contracts.csproj.CoreCompileInputs.cache
+C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Contracts\obj\Debug\net10.0\Attendance.Contracts.sourcelink.json
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Contracts\obj\Debug\net10.0\Attendance.Contracts.dll
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Contracts\obj\Debug\net10.0\refint\Attendance.Contracts.dll
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Contracts\obj\Debug\net10.0\Attendance.Contracts.pdb

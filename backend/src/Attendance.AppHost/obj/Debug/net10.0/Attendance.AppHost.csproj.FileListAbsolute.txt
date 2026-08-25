@@ -136,6 +136,7 @@ C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\A
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.AppHost\obj\Debug\net10.0\Attendance.AppHost.csproj.CoreCompileInputs.cache
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.AppHost\obj\Debug\net10.0\Aspire\references\Attendance_Api.ProjectMetadata.g.cs
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.AppHost\obj\Debug\net10.0\Aspire\references\_AppHost.ProjectMetadata.g.cs
+C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.AppHost\obj\Debug\net10.0\Attendance.AppHost.sourcelink.json
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.AppHost\obj\Debug\net10.0\Attendan.4D337923.Up2Date
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.AppHost\obj\Debug\net10.0\Attendance.AppHost.dll
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.AppHost\obj\Debug\net10.0\refint\Attendance.AppHost.dll

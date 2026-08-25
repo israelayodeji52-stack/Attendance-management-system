@@ -1,25 +1,33 @@
 using Attendance.Application.Interfaces;
+using Attendance.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace Attendance.Infrastructure.Identity;
 
-public class PasswordHasher : IPasswordHasher
+public sealed class PasswordHasher : IPasswordHasher
 {
-    private readonly Microsoft.AspNetCore.Identity.PasswordHasher<object> _passwordHasher = new();
+    private readonly Microsoft.AspNetCore.Identity.PasswordHasher<ApplicationUser>
+        _passwordHasher = new();
 
     public string HashPassword(string password)
     {
-        return _passwordHasher.HashPassword(new object(), password);
+        var user = new ApplicationUser();
+
+        return _passwordHasher.HashPassword(user, password);
     }
 
-    public bool VerifyPassword(string password, string passwordHash)
+    public bool VerifyPassword(
+        string password,
+        string passwordHash)
     {
+        var user = new ApplicationUser();
+
         var result = _passwordHasher.VerifyHashedPassword(
-            new object(),
+            user,
             passwordHash,
             password);
 
-        return result == PasswordVerificationResult.Success
-            || result == PasswordVerificationResult.SuccessRehashNeeded;
+        return result == PasswordVerificationResult.Success ||
+               result == PasswordVerificationResult.SuccessRehashNeeded;
     }
 }

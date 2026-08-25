@@ -1,7 +1,11 @@
 using Attendance.Application.Interfaces;
+
 using Attendance.Infrastructure.Authentication;
+using Attendance.Infrastructure.Email;
 using Attendance.Infrastructure.Identity;
 using Attendance.Infrastructure.Persistence;
+using Attendance.Infrastructure.QRCode;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,22 +18,87 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("AttendanceDb")
-            ?? throw new InvalidOperationException(
-                "Connection string 'AttendanceDb' was not found.");
+        // ==========================================
+        // DATABASE
+        // ==========================================
 
-        services.AddDbContext<ApplicationDbContext>(options =>
+        var connectionString =
+            configuration.GetConnectionString(
+                "AttendanceDb"
+            )
+            ?? configuration.GetConnectionString(
+                "DefaultConnection"
+            );
+
+        if (string.IsNullOrWhiteSpace(
+                connectionString))
         {
-            options.UseNpgsql(connectionString);
-        });
+            throw new InvalidOperationException(
+                "Database connection string was not found."
+            );
+        }
 
-        // Database
-        services.AddScoped<IApplicationDbContext>(provider =>
-            provider.GetRequiredService<ApplicationDbContext>());
+        services.AddDbContext<ApplicationDbContext>(
+            options =>
+            {
+                options.UseNpgsql(
+                    connectionString
+                );
+            }
+        );
 
-        // Authentication
-        services.AddScoped<IPasswordHasher, PasswordHasher>();
-        services.AddScoped<IJwtTokenProvider, JwtTokenProvider>();
+
+        // ==========================================
+        // APPLICATION DB CONTEXT
+        // ==========================================
+
+        services.AddScoped<IApplicationDbContext>(
+            provider =>
+                provider.GetRequiredService<
+                    ApplicationDbContext
+                >()
+        );
+
+
+        // ==========================================
+        // JWT
+        // ==========================================
+
+        services.AddScoped<
+            IJwtTokenProvider,
+            JwtTokenProvider
+        >();
+
+
+        // ==========================================
+        // EMAIL
+        // ==========================================
+
+        services.AddScoped<
+            IEmailService,
+            GmailEmailService
+        >();
+
+
+        // ==========================================
+        // PASSWORD HASHING
+        // ==========================================
+
+        services.AddScoped<
+            IPasswordHasher,
+            PasswordHasher
+        >();
+
+
+        // ==========================================
+        // QR CODE
+        // ==========================================
+
+        services.AddScoped<
+            IQrCodeService,
+            QrCodeService
+        >();
+
 
         return services;
     }

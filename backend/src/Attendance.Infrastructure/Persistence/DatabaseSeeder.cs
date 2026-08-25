@@ -9,16 +9,28 @@ public static class DatabaseSeeder
 {
     public static async Task SeedAsync(ApplicationDbContext context)
     {
-        // Apply any pending migrations
+        // Apply pending migrations
         await context.Database.MigrateAsync();
-
-        // Check if an admin already exists
-        if (await context.Users.AnyAsync(u => u.Role == UserRole.Admin))
-            return;
 
         var passwordHasher = new PasswordHasher();
 
-        var admin = new ApplicationUser
+        // Find existing admin
+        var admin = await context.Users
+            .FirstOrDefaultAsync(u => u.Role == UserRole.Admin);
+
+        if (admin is not null)
+        {
+            // Reset the existing admin password
+            admin.PasswordHash = passwordHasher.HashPassword("Admin@123");
+            admin.IsEmailConfirmed = true;
+
+            await context.SaveChangesAsync();
+
+            return;
+        }
+
+        // Create admin if one does not exist
+        admin = new ApplicationUser
         {
             StudentNumber = "ADMIN001",
             MatricNumber = "ADMIN001",
@@ -31,6 +43,7 @@ public static class DatabaseSeeder
         };
 
         context.Users.Add(admin);
+
         await context.SaveChangesAsync();
     }
 }

@@ -5,6 +5,7 @@ C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\A
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Domain\obj\Debug\net10.0\Attendance.Domain.AssemblyInfoInputs.cache
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Domain\obj\Debug\net10.0\Attendance.Domain.AssemblyInfo.cs
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Domain\obj\Debug\net10.0\Attendance.Domain.csproj.CoreCompileInputs.cache
+C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Domain\obj\Debug\net10.0\Attendance.Domain.sourcelink.json
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Domain\obj\Debug\net10.0\Attendance.Domain.dll
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Domain\obj\Debug\net10.0\refint\Attendance.Domain.dll
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Domain\obj\Debug\net10.0\Attendance.Domain.pdb

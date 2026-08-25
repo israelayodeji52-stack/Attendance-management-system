@@ -1,0 +1,102 @@
+services:
+
+  # ========================================================
+  # PostgreSQL
+  # ========================================================
+
+  postgres:
+    image: postgres:17-alpine
+
+    container_name: attendance-postgres
+
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: AttendanceDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: attendance_dev_password
+
+    ports:
+      - "5433:5432"
+
+    volumes:
+      - attendance_postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d AttendanceDb" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  # ========================================================
+  # Attendance API
+  # ========================================================
+
+  attendance-api:
+    image: attendance-api:latest
+
+    container_name: attendance-api
+
+    restart: unless-stopped
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    environment:
+
+      ASPNETCORE_ENVIRONMENT: Production
+
+      ASPNETCORE_HTTP_PORTS: 8080
+
+      ConnectionStrings__AttendanceDb: >-
+        Host=postgres; Port=5432; Database=AttendanceDb; Username=postgres; Password=attendance_dev_password
+
+      Jwt__Secret: >-
+        THIS_IS_A_DEVELOPMENT_SECRET_KEY_1234567890_ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+      Jwt__Issuer: Attendance.Api
+
+      Jwt__Audience: Attendance.Client
+
+      Jwt__ExpiryInHours: "2"
+
+    ports:
+      - "8080:8080"
+
+  # ========================================================
+  # Next.js Frontend
+  # ========================================================
+
+  attendance-frontend:
+
+    build:
+      context: ./frontend/frontend
+      dockerfile: Dockerfile
+
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:8080/api
+
+    image: attendance-frontend:latest
+
+    container_name: attendance-frontend
+
+    restart: unless-stopped
+
+    depends_on:
+      - attendance-api
+
+    environment:
+      NODE_ENV: production
+
+    ports:
+      - "3000:3000"
+
+# ==========================================================
+# Persistent PostgreSQL storage
+# ==========================================================
+
+volumes:
+
+  attendance_postgres_data:

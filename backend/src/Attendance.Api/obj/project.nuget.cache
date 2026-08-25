@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Xuchekf5soU=",
+  "dgSpecHash": "NIZd5AsWgGU=",
   "success": true,
   "projectFilePath": "C:\\Users\\AKANBI\\attendancemanagementapp\\AttendanceManagementSystem\\backend\\src\\Attendance.Api\\Attendance.Api.csproj",
   "expectedPackageFiles": [
@@ -52,7 +52,7 @@
     "C:\\Users\\AKANBI\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\10.0.3\\npgsql.entityframeworkcore.postgresql.10.0.3.nupkg.sha512",
     "C:\\Users\\AKANBI\\.nuget\\packages\\qrcoder\\1.8.0\\qrcoder.1.8.0.nupkg.sha512",
     "C:\\Users\\AKANBI\\.nuget\\packages\\rbush.signed\\4.0.0\\rbush.signed.4.0.0.nupkg.sha512",
-    "C:\\Users\\AKANBI\\.nuget\\packages\\scalar.aspnetcore\\2.16.16\\scalar.aspnetcore.2.16.16.nupkg.sha512",
+    "C:\\Users\\AKANBI\\.nuget\\packages\\scalar.aspnetcore\\2.16.18\\scalar.aspnetcore.2.16.18.nupkg.sha512",
     "C:\\Users\\AKANBI\\.nuget\\packages\\sixlabors.fonts\\1.0.0\\sixlabors.fonts.1.0.0.nupkg.sha512",
     "C:\\Users\\AKANBI\\.nuget\\packages\\system.codedom\\6.0.0\\system.codedom.6.0.0.nupkg.sha512",
     "C:\\Users\\AKANBI\\.nuget\\packages\\system.composition\\9.0.0\\system.composition.9.0.0.nupkg.sha512",

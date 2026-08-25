@@ -3,5 +3,6 @@ namespace Attendance.Domain.Enums;
 public enum AttendanceStatus
 {
     Present = 1,
-    Absent = 2
+    Late = 2,
+    Absent = 3
 }

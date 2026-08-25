@@ -148,6 +148,7 @@ C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\A
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Api\obj\Debug\net10.0\Attendance.Api.csproj.CoreCompileInputs.cache
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Api\obj\Debug\net10.0\Attendance.Api.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Api\obj\Debug\net10.0\Attendance.Api.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Api\obj\Debug\net10.0\Attendance.Api.sourcelink.json
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Api\obj\Debug\net10.0\rjimswa.dswa.cache.json
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Api\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Api\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json

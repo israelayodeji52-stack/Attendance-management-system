@@ -17,5 +17,8 @@ public interface IApplicationDbContext
 
     DbSet<Attendance.Domain.Entities.Attendance> Attendances { get; }
 
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+    DbSet<PasswordSetupToken> PasswordSetupTokens { get; }
+
+    Task<int> SaveChangesAsync(
+        CancellationToken cancellationToken);
 }

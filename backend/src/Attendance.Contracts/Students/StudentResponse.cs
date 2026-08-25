@@ -1,6 +1,6 @@
 namespace Attendance.Contracts.Students;
 
-public class StudentResponse
+public sealed class StudentResponse
 {
     public Guid Id { get; set; }
 
@@ -12,11 +12,11 @@ public class StudentResponse
 
     public string LastName { get; set; } = string.Empty;
 
-    public string FullName => $"{FirstName} {LastName}";
-
     public string Email { get; set; } = string.Empty;
 
     public string Role { get; set; } = string.Empty;
 
     public bool IsEmailConfirmed { get; set; }
+
+    public string? QrCode { get; set; }
 }

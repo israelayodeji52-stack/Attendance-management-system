@@ -1,89 +1,220 @@
-using System.ComponentModel.DataAnnotations;
 using Attendance.Application.Interfaces;
 using Attendance.Contracts.Attendances;
 using Attendance.Domain.Enums;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
+using AttendanceEntity = Attendance.Domain.Entities.Attendance;
 
 namespace Attendance.Application.Features.Attendances.Commands.MarkAttendance;
 
 public sealed class MarkAttendanceCommandHandler
     : IRequestHandler<MarkAttendanceCommand, AttendanceResponse>
 {
-    private readonly IApplicationDbContext _dbContext;
+    private readonly IApplicationDbContext _context;
 
-    public MarkAttendanceCommandHandler(IApplicationDbContext dbContext)
+    public MarkAttendanceCommandHandler(
+        IApplicationDbContext context)
     {
-        _dbContext = dbContext;
+        _context = context;
     }
 
     public async Task<AttendanceResponse> Handle(
-        MarkAttendanceCommand request,
+        MarkAttendanceCommand command,
         CancellationToken cancellationToken)
     {
-        var student = await _dbContext.Users
-            .FirstOrDefaultAsync(x => x.Id == request.Request.StudentId, cancellationToken);
+        var request = command.Request;
+
+        // ==========================================
+        // VALIDATION
+        // ==========================================
+
+        if (string.IsNullOrWhiteSpace(request.MatricNumber))
+        {
+            throw new ValidationException(
+                "Matric number is required.");
+        }
+
+        if (request.CourseId == Guid.Empty)
+        {
+            throw new ValidationException(
+                "Course is required.");
+        }
+
+        if (request.SemesterId == Guid.Empty)
+        {
+            throw new ValidationException(
+                "Semester is required.");
+        }
+
+        if (request.AcademicSessionId == Guid.Empty)
+        {
+            throw new ValidationException(
+                "Academic session is required.");
+        }
+
+        var matricNumber = request.MatricNumber.Trim();
+
+        // ==========================================
+        // FIND STUDENT
+        // ==========================================
+
+        var student = await _context.Users
+            .FirstOrDefaultAsync(
+                x =>
+                    x.MatricNumber == matricNumber &&
+                    x.Role == UserRole.Student,
+                cancellationToken);
 
         if (student is null)
-            throw new ValidationException("Student not found.");
+        {
+            throw new ValidationException(
+                "Student not found.");
+        }
 
-        var course = await _dbContext.Courses
-            .FirstOrDefaultAsync(x => x.Id == request.Request.CourseId, cancellationToken);
+        // ==========================================
+        // FIND COURSE
+        // ==========================================
+
+        var course = await _context.Courses
+            .FirstOrDefaultAsync(
+                x => x.Id == request.CourseId,
+                cancellationToken);
 
         if (course is null)
-            throw new ValidationException("Course not found.");
+        {
+            throw new ValidationException(
+                "Course not found.");
+        }
 
-        var semester = await _dbContext.Semesters
-            .FirstOrDefaultAsync(x => x.Id == request.Request.SemesterId, cancellationToken);
+        // ==========================================
+        // FIND SEMESTER
+        // ==========================================
+
+        var semester = await _context.Semesters
+            .FirstOrDefaultAsync(
+                x => x.Id == request.SemesterId,
+                cancellationToken);
 
         if (semester is null)
-            throw new ValidationException("Semester not found.");
+        {
+            throw new ValidationException(
+                "Semester not found.");
+        }
 
-        var session = await _dbContext.AcademicSessions
-            .FirstOrDefaultAsync(x => x.Id == request.Request.AcademicSessionId, cancellationToken);
+        // ==========================================
+        // FIND ACADEMIC SESSION
+        // ==========================================
 
-        if (session is null)
-            throw new ValidationException("Academic session not found.");
+        var academicSession = await _context.AcademicSessions
+            .FirstOrDefaultAsync(
+                x => x.Id == request.AcademicSessionId,
+                cancellationToken);
 
-        var alreadyMarked = await _dbContext.Attendances.AnyAsync(
-            x =>
-                x.StudentId == request.Request.StudentId &&
-                x.CourseId == request.Request.CourseId &&
-                x.SemesterId == request.Request.SemesterId &&
-                x.AcademicSessionId == request.Request.AcademicSessionId &&
-                x.AttendanceDate.Date == DateTime.UtcNow.Date,
-            cancellationToken);
+        if (academicSession is null)
+        {
+            throw new ValidationException(
+                "Academic session not found.");
+        }
+
+        // ==========================================
+        // VERIFY COURSE BELONGS TO SEMESTER
+        // ==========================================
+
+        if (course.SemesterId != semester.Id)
+        {
+            throw new ValidationException(
+                "The selected course does not belong to the selected semester.");
+        }
+
+        // ==========================================
+        // VERIFY STUDENT IS ENROLLED
+        // ==========================================
+
+        var enrolled = await _context.StudentCourses
+            .AnyAsync(
+                x =>
+                    x.StudentId == student.Id &&
+                    x.CourseId == course.Id,
+                cancellationToken);
+
+        if (!enrolled)
+        {
+            throw new ValidationException(
+                "Student is not enrolled in this course.");
+        }
+
+        // ==========================================
+        // CHECK DUPLICATE ATTENDANCE
+        // ==========================================
+
+        var today = DateTime.UtcNow.Date;
+
+        var alreadyMarked = await _context.Attendances
+            .AnyAsync(
+                x =>
+                    x.StudentId == student.Id &&
+                    x.CourseId == course.Id &&
+                    x.SemesterId == semester.Id &&
+                    x.AcademicSessionId == academicSession.Id &&
+                    x.AttendanceDate.Date == today,
+                cancellationToken);
 
         if (alreadyMarked)
-            throw new ValidationException("Attendance has already been marked today.");
-
-        var attendance = new Attendance.Domain.Entities.Attendance
         {
-            StudentId = request.Request.StudentId,
-            CourseId = request.Request.CourseId,
-            SemesterId = request.Request.SemesterId,
-            AcademicSessionId = request.Request.AcademicSessionId,
-            AttendanceDate = DateTime.UtcNow,
+            throw new ValidationException(
+                "Attendance has already been recorded for this student today.");
+        }
+
+        // ==========================================
+        // CREATE ATTENDANCE
+        // ==========================================
+
+        var attendance = new AttendanceEntity
+        {
+            StudentId = student.Id,
+            CourseId = course.Id,
+            SemesterId = semester.Id,
+            AcademicSessionId = academicSession.Id,
+            AttendanceDate = today,
             Status = AttendanceStatus.Present
         };
 
-        _dbContext.Attendances.Add(attendance);
+        _context.Attendances.Add(attendance);
 
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        await _context.SaveChangesAsync(
+            cancellationToken);
+
+        // ==========================================
+        // RETURN RESPONSE
+        // ==========================================
 
         return new AttendanceResponse
         {
             Id = attendance.Id,
-            StudentId = attendance.StudentId,
-            StudentName = $"{student.FirstName} {student.LastName}",
-            CourseId = attendance.CourseId,
+
+            StudentId = student.Id,
+
+            StudentName =
+                $"{student.FirstName} {student.LastName}".Trim(),
+
+            CourseId = course.Id,
+
             CourseCode = course.CourseCode,
+
             CourseTitle = course.CourseTitle,
-            SemesterId = attendance.SemesterId,
+
+            SemesterId = semester.Id,
+
             SemesterName = semester.Name,
-            AcademicSessionId = attendance.AcademicSessionId,
-            AcademicSessionName = session.Name,
+
+            AcademicSessionId = academicSession.Id,
+
+            AcademicSessionName = academicSession.Name,
+
             Status = attendance.Status.ToString(),
+
             AttendanceDate = attendance.AttendanceDate
         };
     }

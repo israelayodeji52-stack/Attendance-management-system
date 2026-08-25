@@ -13,6 +13,7 @@ C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\A
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Infrastructure\obj\Debug\net10.0\Attendance.Infrastructure.AssemblyInfoInputs.cache
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Infrastructure\obj\Debug\net10.0\Attendance.Infrastructure.AssemblyInfo.cs
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Infrastructure\obj\Debug\net10.0\Attendance.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Infrastructure\obj\Debug\net10.0\Attendance.Infrastructure.sourcelink.json
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Infrastructure\obj\Debug\net10.0\Attendan.AB856C5F.Up2Date
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Infrastructure\obj\Debug\net10.0\Attendance.Infrastructure.dll
 C:\Users\AKANBI\attendancemanagementapp\AttendanceManagementSystem\backend\src\Attendance.Infrastructure\obj\Debug\net10.0\refint\Attendance.Infrastructure.dll

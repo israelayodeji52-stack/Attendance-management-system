@@ -10,5 +10,5 @@ public class UpdateAttendanceRequest
 
     public Guid AcademicSessionId { get; set; }
 
-    public bool Status { get; set; }
+    public string Status { get; set; } = string.Empty;
 }

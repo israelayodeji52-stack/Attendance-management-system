@@ -2,26 +2,27 @@ using FluentValidation;
 
 namespace Attendance.Application.Features.Students.Commands.CreateStudent;
 
-public class CreateStudentCommandValidator
+public sealed class CreateStudentCommandValidator
     : AbstractValidator<CreateStudentCommand>
 {
     public CreateStudentCommandValidator()
     {
         RuleFor(x => x.MatricNumber)
             .NotEmpty()
-            .MaximumLength(20);
+            .WithMessage("Matric Number is required.");
 
         RuleFor(x => x.FirstName)
             .NotEmpty()
-            .MaximumLength(100);
+            .WithMessage("First Name is required.");
 
         RuleFor(x => x.LastName)
             .NotEmpty()
-            .MaximumLength(100);
+            .WithMessage("Last Name is required.");
 
         RuleFor(x => x.Email)
             .NotEmpty()
+            .WithMessage("Email is required.")
             .EmailAddress()
-            .MaximumLength(255);
+            .WithMessage("A valid email address is required.");
     }
 }

@@ -3,19 +3,25 @@ using MediatR;
 
 namespace Attendance.Application.Features.Students.Commands.CreateStudent;
 
-public record CreateStudentCommand(
-    string MatricNumber,
-    string FirstName,
-    string LastName,
-    string Email
-) : IRequest<StudentResponse>
+public sealed class CreateStudentCommand : IRequest<StudentResponse>
 {
-    public CreateStudentCommand(CreateStudentRequest request)
-        : this(
-            request.MatricNumber,
-            request.FirstName,
-            request.LastName,
-            request.Email)
+    public string MatricNumber { get; init; } = string.Empty;
+
+    public string FirstName { get; init; } = string.Empty;
+
+    public string LastName { get; init; } = string.Empty;
+
+    public string Email { get; init; } = string.Empty;
+
+    public CreateStudentCommand()
     {
+    }
+
+    public CreateStudentCommand(CreateStudentRequest request)
+    {
+        MatricNumber = request.MatricNumber;
+        FirstName = request.FirstName;
+        LastName = request.LastName;
+        Email = request.Email;
     }
 }
