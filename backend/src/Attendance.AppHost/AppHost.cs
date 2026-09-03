@@ -1,4 +1,10 @@
 var builder = DistributedApplication.CreateBuilder(args);
+var jwtSecret = Environment.GetEnvironmentVariable("Jwt__Secret");
+
+if (string.IsNullOrWhiteSpace(jwtSecret))
+{
+       throw new InvalidOperationException("Jwt__Secret is not configured.");
+}
 
 // Add PostgreSQL server setup
 var postgres = builder.AddPostgres("postgres")
@@ -13,7 +19,7 @@ builder.AddProject<Projects.Attendance_Api>("attendance-api")
        .WithReference(attendanceDb)
        .WaitFor(attendanceDb)
        // Inject JWT environment variables directly into the Aspire container sandbox
-       .WithEnvironment("Jwt__Secret", "THIS_IS_A_DEVELOPMENT_SECRET_KEY_1234567890_ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+       .WithEnvironment("Jwt__Secret", jwtSecret)
        .WithEnvironment("Jwt__Issuer", "Attendance.Api")
        .WithEnvironment("Jwt__Audience", "Attendance.Client");
 

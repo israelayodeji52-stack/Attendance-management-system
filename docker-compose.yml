@@ -14,7 +14,7 @@ services:
     environment:
       POSTGRES_DB: AttendanceDb
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: attendance_dev_password
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
 
     ports:
       - "5433:5432"
@@ -51,10 +51,9 @@ services:
       ASPNETCORE_HTTP_PORTS: 8080
 
       ConnectionStrings__AttendanceDb: >-
-        Host=postgres; Port=5432; Database=AttendanceDb; Username=postgres; Password=attendance_dev_password
+        Host=postgres; Port=5432; Database=AttendanceDb; Username=postgres; Password=${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
 
-      Jwt__Secret: >-
-        THIS_IS_A_DEVELOPMENT_SECRET_KEY_1234567890_ABCDEFGHIJKLMNOPQRSTUVWXYZ
+      Jwt__Secret: ${JWT_SECRET:?Set JWT_SECRET in .env}
 
       Jwt__Issuer: Attendance.Api
 

@@ -9,9 +9,16 @@ public class ApplicationDbContextFactory
     public ApplicationDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+        var connectionString = Environment.GetEnvironmentVariable(
+            "ConnectionStrings__AttendanceDb");
 
-        optionsBuilder.UseNpgsql(
-            "Host=localhost;Port=5433;Database=AttendanceDb;Username=postgres;Password=2~x.djUeB*(H7dz*h*04nr");
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            throw new InvalidOperationException(
+                "ConnectionStrings__AttendanceDb is not configured.");
+        }
+
+        optionsBuilder.UseNpgsql(connectionString);
 
         return new ApplicationDbContext(optionsBuilder.Options);
     }
